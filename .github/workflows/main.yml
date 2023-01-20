@@ -1,0 +1,41 @@
+# Sample workflow for building and deploying a Next.js site to GitHub Pages
+#
+# To get started with Next.js see: https://nextjs.org/docs/getting-started
+#
+name: Test github actions for branch name
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["dev", "main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  branch-search:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build & Run using docker-compose on VPS
+        shell: bash
+        env:
+          SSH_KEY_BODY: ${{ secrets.VPS_KEY }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+        run: |
+          echo "github.head_ref: ${{ github.head_ref }}" && \
+          echo "github.ref_name: ${{ github.ref_name }}" && \
+          echo "github.ref: ${{ github.ref }}" && \
+          echo "github.event: ${{ github.event }}" && \
+          echo "github.env: ${{ github.env }}" && \
+          echo ">>The End<<"
