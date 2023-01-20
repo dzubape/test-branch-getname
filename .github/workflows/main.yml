@@ -30,12 +30,12 @@ jobs:
       - name: Build & Run using docker-compose on VPS
         shell: bash
         env:
-          SSH_KEY_BODY: ${{ secrets.VPS_KEY }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+          BRANCH_NAME: ${{ github.ref_name }} 
         run: |
           echo "github.head_ref: ${{ github.head_ref }}" && \
           echo "github.ref_name: ${{ github.ref_name }}" && \
           echo "github.ref: ${{ github.ref }}" && \
           echo "github.event: ${{ github.event }}" && \
           echo "github.env: ${{ github.env }}" && \
+          echo "BRANCH_NAME: ${BRANCH_NAME}" && \
           echo ">>The End<<"
